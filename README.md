@@ -1,7 +1,7 @@
 Django Rest Framework ORJSON Renderer
 ==================
 
-[![Build Status](https://travis-ci.org/gizmag/drf-ujson-renderer.png?branch=master)](https://travis-ci.org/gizmag/drf-ujson-renderer)
+[![Build Status](https://travis-ci.org/baffolobill/drf-orjson-renderer.png?branch=master)](https://travis-ci.org/baffolobill/drf-orjson-renderer)
 
 Django Rest Framework renderer using [orjson](https://github.com/ijl/orjson)
 
