@@ -3,12 +3,11 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='drf_ujson',
-    version='1.2',
-    description='Django Rest Framework UJSON Renderer',
-    author='Gizmag',
-    author_email='tech@gizmag.com',
-    url='https://github.com/gizmag/drf-ujson-renderer',
+    name='drf_orjson',
+    version='2.0',
+    description='Django Rest Framework ORJSON Renderer',
+    author='Gizmag,baffolobill',
+    url='https://github.com/baffolobill/drf-orjson-renderer',
     packages=find_packages(),
-    install_requires=['django', 'ujson', 'djangorestframework']
+    install_requires=['django', 'orjson', 'djangorestframework']
 )

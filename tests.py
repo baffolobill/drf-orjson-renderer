@@ -2,17 +2,17 @@ from unittest import TestCase
 from io import BytesIO
 
 from django.conf import settings
-import ujson
+import orjson
 
 settings.configure()
 
-from drf_ujson.renderers import UJSONRenderer
-from drf_ujson.parsers import UJSONParser
+from drf_orjson.renderers import ORJSONRenderer
+from drf_orjson.parsers import ORJSONParser
 
 
-class UJSONRendererTests(TestCase):
+class ORJSONRendererTests(TestCase):
     def setUp(self):
-        self.renderer = UJSONRenderer()
+        self.renderer = ORJSONRenderer()
         self.data = {
             'a': [1, 2, 3],
             'b': True,
@@ -24,7 +24,7 @@ class UJSONRendererTests(TestCase):
     def test_basic_data_structures_rendered_correctly(self):
 
         rendered = self.renderer.render(self.data)
-        reloaded = ujson.loads(rendered)
+        reloaded = orjson.loads(rendered)
 
         self.assertEqual(reloaded, self.data)
 
@@ -32,17 +32,17 @@ class UJSONRendererTests(TestCase):
 
         rendered = self.renderer.render(
             data=self.data,
-            media_type='application/json',
+            accepted_media_type='application/json',
             renderer_context={},
         )
-        reloaded = ujson.loads(rendered)
+        reloaded = orjson.loads(rendered)
 
         self.assertEqual(reloaded, self.data)
 
 
-class UJSONParserTests(TestCase):
+class ORJSONParserTests(TestCase):
     def setUp(self):
-        self.parser = UJSONParser()
+        self.parser = ORJSONParser()
         self.data = {
             'a': [1, 2, 3],
             'b': True,
@@ -53,16 +53,16 @@ class UJSONParserTests(TestCase):
 
     def test_basic_data_structures_parsed_correctly(self):
 
-        dumped = ujson.dumps(self.data)
+        dumped = orjson.dumps(self.data)
         parsed = self.parser.parse(BytesIO(dumped.encode('utf-8')))
 
         self.assertEqual(parsed, self.data)
 
     def test_parser_works_correctly_when_media_type_and_context_provided(self):
-        dumped = ujson.dumps(self.data)
+        dumped = orjson.dumps(self.data)
         parsed = self.parser.parse(
             stream=BytesIO(dumped.encode('utf-8')),
-            media_type='application/json',
+            accepted_media_type='application/json',
             parser_context={},
         )
 

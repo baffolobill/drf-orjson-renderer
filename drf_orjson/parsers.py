@@ -1,22 +1,15 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+import codecs
 
+import orjson
 from django.conf import settings
-from rest_framework.compat import six
 from rest_framework.parsers import BaseParser, ParseError
 from rest_framework.renderers import JSONRenderer
-import ujson
 
 
-__author__ = 'y.gavenchuk aka murminathor'
-__all__ = ['UJSONParser', ]
-
-
-class UJSONParser(BaseParser):
+class ORJSONParser(BaseParser):
     """
-    Parses JSON-serialized data by ujson parser.
+    Parses JSON-serialized data.
     """
-
     media_type = 'application/json'
     renderer_class = JSONRenderer
 
@@ -28,7 +21,7 @@ class UJSONParser(BaseParser):
         encoding = parser_context.get('encoding', settings.DEFAULT_CHARSET)
 
         try:
-            data = stream.read().decode(encoding)
-            return ujson.loads(data)
+            decoded_stream = codecs.getreader(encoding)(stream)
+            return orjson.loads(decoded_stream)
         except ValueError as exc:
-            raise ParseError('JSON parse error - %s' % six.text_type(exc))
+            raise ParseError('JSON parse error - %s' % str(exc))
